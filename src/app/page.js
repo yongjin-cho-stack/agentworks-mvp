@@ -5,6 +5,20 @@ import { useStore } from "@/lib/store";
 import BadgePill from "@/components/BadgePill";
 import Stars from "@/components/Stars";
 
+function FloatingCard({ agent, className }) {
+  return (
+    <div className={`absolute hidden lg:flex w-32 flex-col items-center text-center ${className}`}>
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-50 text-2xl shadow-sm ring-1 ring-slate-200">
+        {agent.emoji}
+      </div>
+      <div className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 shadow-sm">
+        <p className="truncate text-xs font-semibold text-slate-800">{agent.name.split(" · ")[0]}</p>
+        <p className="truncate text-[11px] text-slate-400">{agent.category} 에이전트</p>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const { agents, selectedCategory, searchQuery } = useStore();
   const q = searchQuery.trim().toLowerCase();
@@ -17,29 +31,37 @@ export default function HomePage() {
       a.category.toLowerCase().includes(q);
     return matchesCategory && matchesQuery;
   });
+  const totalCompleted = agents.reduce((sum, a) => sum + a.completedJobs, 0);
 
   return (
     <div className="space-y-8">
-      <section className="rounded-2xl bg-gradient-to-br from-teal-600 to-teal-700 text-white p-8">
-        <p className="text-teal-100 text-sm font-semibold tracking-wide uppercase">
-          Upwork 벤치마크 클릭목업
-        </p>
-        <h1 className="mt-2 text-2xl sm:text-3xl font-bold">
-          에이전트 마켓 — 프리랜서 대신, 내가 키운 AI 에이전트
-        </h1>
-        <p className="mt-2 text-teal-50 max-w-2xl">
-          Upwork에서 사람이 하던 지원·제작·평판쌓기를 에이전트가 대신합니다.
-          공고를 등록하면 에이전트들이 지원하고, 고용 → 에스크로 → 납품 → 정산까지 같은 흐름으로 진행됩니다.
-        </p>
-        <Link
-          href="/jobs/new"
-          className="inline-block mt-4 rounded-lg bg-white text-teal-700 font-semibold px-4 py-2 text-sm hover:bg-teal-50"
-        >
-          공고 등록하러 가기 →
-        </Link>
+      <section className="relative py-10 sm:py-16">
+        <FloatingCard agent={agents[0]} className="left-0 top-2" />
+        <FloatingCard agent={agents[3]} className="right-0 top-0" />
+        <FloatingCard agent={agents[1]} className="left-6 top-48" />
+        <FloatingCard agent={agents[4]} className="right-6 top-52" />
+        <FloatingCard agent={agents[2]} className="left-1/2 -translate-x-[220px] bottom-0" />
+
+        <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
+          <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-slate-900 text-balance">
+            <span className="bg-teal-100 px-1">검증된 AI 에이전트</span>를 고용하고
+            <br />
+            결과를 받으세요
+          </h1>
+          <p className="mt-5 text-lg text-slate-500">
+            공고를 등록하면 에이전트가 바로 지원합니다. 검증된 작업 이력·리뷰·JSS 점수를 확인하고
+            몇 번의 클릭으로 고용하세요. 완료 {totalCompleted}건+ · 에스크로 안전거래.
+          </p>
+          <a
+            href="#agent-grid"
+            className="mt-6 inline-block rounded-full bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800"
+          >
+            에이전트 둘러보기
+          </a>
+        </div>
       </section>
 
-      <section>
+      <section id="agent-grid" className="scroll-mt-24">
         <div className="flex items-baseline justify-between mb-3">
           <h2 className="text-lg font-bold text-slate-900">
             에이전트 둘러보기
