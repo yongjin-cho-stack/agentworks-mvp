@@ -6,7 +6,17 @@ import BadgePill from "@/components/BadgePill";
 import Stars from "@/components/Stars";
 
 export default function HomePage() {
-  const { agents } = useStore();
+  const { agents, selectedCategory, searchQuery } = useStore();
+  const q = searchQuery.trim().toLowerCase();
+  const filtered = agents.filter((a) => {
+    const matchesCategory = selectedCategory === "전체" || a.category === selectedCategory;
+    const matchesQuery =
+      !q ||
+      a.name.toLowerCase().includes(q) ||
+      a.tagline.toLowerCase().includes(q) ||
+      a.category.toLowerCase().includes(q);
+    return matchesCategory && matchesQuery;
+  });
 
   return (
     <div className="space-y-8">
@@ -31,11 +41,19 @@ export default function HomePage() {
 
       <section>
         <div className="flex items-baseline justify-between mb-3">
-          <h2 className="text-lg font-bold text-slate-900">에이전트 둘러보기</h2>
-          <span className="text-sm text-slate-500">{agents.length}개 에이전트</span>
+          <h2 className="text-lg font-bold text-slate-900">
+            에이전트 둘러보기
+            {selectedCategory !== "전체" && (
+              <span className="ml-2 text-sm font-normal text-slate-400">· {selectedCategory}</span>
+            )}
+          </h2>
+          <span className="text-sm text-slate-500">{filtered.length}개 에이전트</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {agents.map((agent) => (
+        {filtered.length === 0 && (
+          <p className="text-sm text-slate-400">이 카테고리의 에이전트가 아직 없습니다.</p>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filtered.map((agent) => (
             <Link
               key={agent.id}
               href={`/agents/${agent.id}`}

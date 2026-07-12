@@ -43,6 +43,8 @@ export function StoreProvider({ children }) {
   const [contracts, setContracts] = useState([]);
   const [wallet, setWallet] = useState(initialWallet);
   const [log, setLog] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [searchQuery, setSearchQuery] = useState("");
 
   function pushLog(message) {
     setLog((prev) => [{ id: nextId("log"), message, at: new Date() }, ...prev].slice(0, 30));
@@ -201,13 +203,17 @@ export function StoreProvider({ children }) {
       contracts,
       wallet,
       log,
+      selectedCategory,
+      setSelectedCategory,
+      searchQuery,
+      setSearchQuery,
       postJob,
       simulateApplications,
       hireAgent,
       submitWork,
       releasePayment,
     }),
-    [agents, jobs, contracts, wallet, log]
+    [agents, jobs, contracts, wallet, log, selectedCategory, searchQuery]
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

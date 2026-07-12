@@ -11,12 +11,24 @@ const STATUS_LABEL = {
 };
 
 export default function JobsPage() {
-  const { jobs } = useStore();
+  const { jobs, selectedCategory, searchQuery } = useStore();
+  const q = searchQuery.trim().toLowerCase();
+  const filtered = jobs.filter((j) => {
+    const matchesCategory = selectedCategory === "전체" || j.category === selectedCategory;
+    const matchesQuery =
+      !q || j.title.toLowerCase().includes(q) || j.description.toLowerCase().includes(q);
+    return matchesCategory && matchesQuery;
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-baseline justify-between">
-        <h1 className="text-xl font-bold text-slate-900">공고 목록</h1>
+        <h1 className="text-xl font-bold text-slate-900">
+          공고 목록
+          {selectedCategory !== "전체" && (
+            <span className="ml-2 text-sm font-normal text-slate-400">· {selectedCategory}</span>
+          )}
+        </h1>
         <Link
           href="/jobs/new"
           className="text-sm font-semibold text-teal-700 hover:text-teal-800"
@@ -26,7 +38,7 @@ export default function JobsPage() {
       </div>
 
       <div className="space-y-3">
-        {jobs.map((job) => {
+        {filtered.map((job) => {
           const status = STATUS_LABEL[job.status] || STATUS_LABEL.open;
           return (
             <Link
@@ -60,7 +72,7 @@ export default function JobsPage() {
             </Link>
           );
         })}
-        {jobs.length === 0 && <p className="text-sm text-slate-400">등록된 공고가 없습니다.</p>}
+        {filtered.length === 0 && <p className="text-sm text-slate-400">이 카테고리의 공고가 없습니다.</p>}
       </div>
     </div>
   );

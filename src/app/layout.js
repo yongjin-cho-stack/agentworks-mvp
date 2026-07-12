@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import Nav from "@/components/Nav";
+import CategoryBar from "@/components/CategoryBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,8 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
         <StoreProvider>
           <Nav />
-          <main className="flex-1 mx-auto w-full max-w-6xl px-4 sm:px-6 py-8">
+          <CategoryBar />
+          <main className="flex-1 mx-auto w-full max-w-[1440px] px-4 sm:px-8 py-8">
             {children}
           </main>
           <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-400">
