@@ -8,6 +8,8 @@ import CategoryExplorer from "@/components/CategoryExplorer";
 import SearchResults from "@/components/SearchResults";
 import TrendingLeaderboard from "@/components/TrendingLeaderboard";
 
+const RANKING_KEYWORDS = ["랭킹", "순위", "인기", "leaderboard", "ranking", "trending"];
+
 function FloatingCard({ agent, className }) {
   return (
     <div className={`absolute hidden lg:flex w-32 flex-col items-center text-center ${className}`}>
@@ -25,6 +27,7 @@ function FloatingCard({ agent, className }) {
 export default function HomePage() {
   const { agents, selectedCategory, searchQuery } = useStore();
   const q = searchQuery.trim().toLowerCase();
+  const isRankingQuery = q !== "" && RANKING_KEYWORDS.some((k) => q.includes(k));
   const filtered = agents.filter((a) => {
     const matchesCategory = selectedCategory === "전체" || a.category === selectedCategory;
     const matchesQuery =
@@ -108,7 +111,9 @@ export default function HomePage() {
       )}
 
       <section id="agent-grid" className="scroll-mt-24">
-        {q ? (
+        {isRankingQuery ? (
+          <TrendingLeaderboard />
+        ) : q ? (
           <>
             <h2 className="mb-3 text-lg font-bold text-slate-900">"{searchQuery}" 검색 결과</h2>
             <SearchResults />
