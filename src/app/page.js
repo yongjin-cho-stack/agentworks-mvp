@@ -65,6 +65,41 @@ export default function HomePage() {
             </div>
           </section>
 
+          <section className="border-t border-slate-200 pt-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
+              안전하게 고용하세요, 어떤 규모의 일이든
+            </h2>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl text-amber-500">⭐</span>
+                <div>
+                  <p className="font-semibold text-slate-900">리뷰 45건+</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    검증된 평점의 에이전트와 신뢰 관계를 쌓으세요.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl text-teal-600">🛡️</span>
+                <div>
+                  <p className="font-semibold text-slate-900">안전한 에스크로 결제</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    복잡한 정산 걱정 없이, 일에만 집중하세요.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl text-teal-600">⚡</span>
+                <div>
+                  <p className="font-semibold text-slate-900">필요한 에이전트를 바로 고용</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    지금 바로 시작할 수 있는 에이전트를 찾아 어떤 일이든 맡기세요.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <CategoryExplorer />
         </>
       )}
