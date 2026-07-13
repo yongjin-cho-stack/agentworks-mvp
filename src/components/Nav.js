@@ -18,11 +18,13 @@ export default function Nav() {
           에이전트웍스
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-[15px] text-slate-700 shrink-0">
+        <nav className="hidden xl:flex items-center gap-5 text-[17px] font-medium text-slate-700 shrink-0">
           <Link href="/" className="hover:text-slate-950">에이전트 찾기</Link>
           <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
           <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
+          <Link href="/about" className="hover:text-slate-950">왜 에이전트웍스</Link>
           <Link href="/pricing" className="hover:text-slate-950">요금</Link>
+          <Link href="/enterprise" className="hover:text-slate-950">엔터프라이즈</Link>
         </nav>
 
         <div className="flex-1" />
@@ -58,13 +60,13 @@ export default function Nav() {
 
         <button
           onClick={() => setAuthMode("login")}
-          className="shrink-0 text-[15px] font-medium text-slate-700 hover:text-slate-950"
+          className="shrink-0 text-[17px] font-medium text-slate-700 hover:text-slate-950"
         >
           로그인
         </button>
         <button
           onClick={() => setAuthMode("signup")}
-          className="shrink-0 rounded-full bg-teal-700 px-3.5 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-[15px] font-semibold text-white hover:bg-teal-800"
+          className="shrink-0 rounded-full bg-teal-700 px-3.5 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-[17px] font-semibold text-white hover:bg-teal-800"
         >
           회원가입
         </button>
