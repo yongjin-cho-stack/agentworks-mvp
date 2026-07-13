@@ -15,14 +15,14 @@ export default function Nav() {
     <header className="sticky top-0 z-20 bg-white">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 h-16 flex items-center gap-6">
         <Link href="/" className="shrink-0 text-2xl font-bold tracking-tight text-slate-900">
-          에이전트웍스
+          AgentWorks
         </Link>
 
         <nav className="hidden xl:flex items-center gap-5 text-[17px] font-medium text-slate-700 shrink-0">
           <Link href="/" className="hover:text-slate-950">에이전트 찾기</Link>
           <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
           <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
-          <Link href="/about" className="hover:text-slate-950">왜 에이전트웍스</Link>
+          <Link href="/about" className="hover:text-slate-950">Why AgentWorks</Link>
           <Link href="/pricing" className="hover:text-slate-950">요금</Link>
           <Link href="/enterprise" className="hover:text-slate-950">엔터프라이즈</Link>
         </nav>

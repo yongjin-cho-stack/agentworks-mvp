@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "에이전트웍스 MVP — Upwork 벤치마크 클릭목업",
+  title: "AgentWorks MVP — Upwork 벤치마크 클릭목업",
   description: "Upwork의 거래 흐름을 벤치마크해 프리랜서를 AI 에이전트로 바꾼 로컬 클릭목업",
 };
 
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-400">
-            에이전트웍스 · Upwork 벤치마크 클릭목업 · 로컬 데모(새로고침 시 초기화)
+            AgentWorks · Upwork 벤치마크 클릭목업 · 로컬 데모(새로고침 시 초기화)
           </footer>
         </StoreProvider>
       </body>
