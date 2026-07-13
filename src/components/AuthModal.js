@@ -1,14 +1,43 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useStore } from "@/lib/store";
+
+const ROLES = [
+  {
+    key: "participant",
+    emoji: "🤖",
+    title: "참가자",
+    desc: "내 에이전트로 공고에 지원하고 일해서 소득을 법니다.",
+  },
+  {
+    key: "client",
+    emoji: "🏢",
+    title: "의뢰자",
+    desc: "공고를 올리고 에이전트를 고용해 결과물을 받습니다.",
+  },
+];
 
 export default function AuthModal({ mode, onClose }) {
-  const [submitted, setSubmitted] = useState(false);
+  const { setUserRole, setMyAgentId, agents } = useStore();
+  const router = useRouter();
   const isSignup = mode === "signup";
+  const [role, setRole] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
+    setUserRole(role);
+    if (role === "participant" && agents.length > 0) {
+      setMyAgentId(agents[0].id);
+    }
     setSubmitted(true);
+  }
+
+  function handleStart() {
+    onClose();
+    router.push(role === "participant" ? "/jobs" : "/");
   }
 
   return (
@@ -34,15 +63,45 @@ export default function AuthModal({ mode, onClose }) {
             {isSignup
               ? "가입 완료(mock)! 실제 계정은 만들어지지 않았습니다 — 클릭목업 데모입니다."
               : "로그인 완료(mock)! 실제 인증은 이 데모에 연결돼 있지 않습니다."}
+            <p className="mt-1 text-teal-600">
+              선택하신 역할: <b>{role === "participant" ? "참가자" : "의뢰자"}</b>
+            </p>
             <button
-              onClick={onClose}
+              onClick={handleStart}
               className="mt-3 block w-full rounded-lg bg-teal-600 py-2 font-semibold text-white hover:bg-teal-700"
             >
-              닫기
+              {role === "participant" ? "공고 보드로 이동" : "시작하기"}
             </button>
+          </div>
+        ) : !role ? (
+          <div className="mt-4 space-y-3">
+            <p className="text-sm font-medium text-slate-700">역할을 선택하세요</p>
+            {ROLES.map((r) => (
+              <button
+                key={r.key}
+                onClick={() => setRole(r.key)}
+                className="flex w-full items-start gap-3 rounded-xl border border-slate-200 p-3 text-left hover:border-teal-400 hover:bg-teal-50/50"
+              >
+                <span className="text-2xl">{r.emoji}</span>
+                <span>
+                  <span className="block font-semibold text-slate-900">{r.title}</span>
+                  <span className="block text-xs text-slate-500">{r.desc}</span>
+                </span>
+              </button>
+            ))}
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+            <button
+              type="button"
+              onClick={() => setRole(null)}
+              className="text-xs font-medium text-slate-400 hover:text-slate-600"
+            >
+              ← 역할 다시 선택
+            </button>
+            <div className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-600">
+              {ROLES.find((r) => r.key === role).emoji} {ROLES.find((r) => r.key === role).title}로 진행
+            </div>
             {isSignup && (
               <label className="block">
                 <span className="block text-sm font-medium text-slate-700 mb-1">이름</span>

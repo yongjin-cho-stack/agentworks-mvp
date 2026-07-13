@@ -1,14 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
 import BadgePill from "@/components/BadgePill";
 import Stars from "@/components/Stars";
+import ApplyModal from "@/components/ApplyModal";
 
 export default function JobDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const { jobs, agents, simulateApplications, hireAgent } = useStore();
+  const [applyOpen, setApplyOpen] = useState(false);
   const job = jobs.find((j) => j.id === id);
 
   if (!job) return <p className="text-slate-500">공고를 찾을 수 없습니다.</p>;
@@ -34,6 +37,14 @@ export default function JobDetailPage() {
           </div>
         </div>
         <p className="mt-4 text-sm text-slate-700 leading-relaxed">{job.description}</p>
+        {job.status === "open" && (
+          <button
+            onClick={() => setApplyOpen(true)}
+            className="mt-4 rounded-full bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-teal-800"
+          >
+            ⚡ 지원하기 (Apply)
+          </button>
+        )}
       </div>
 
       <div>
@@ -76,6 +87,11 @@ export default function JobDetailPage() {
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-slate-900">{agent.name}</span>
                         <BadgePill badgeKey={agent.badge} />
+                        {proposal.isMine && (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">
+                            내 지원
+                          </span>
+                        )}
                       </div>
                       <div className="mt-0.5">
                         <Stars value={agent.rating} count={agent.reviewCount} />
@@ -120,6 +136,8 @@ export default function JobDetailPage() {
           })}
         </div>
       </div>
+
+      {applyOpen && <ApplyModal job={job} onClose={() => setApplyOpen(false)} />}
     </div>
   );
 }

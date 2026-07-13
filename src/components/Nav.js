@@ -6,7 +6,7 @@ import { useStore } from "@/lib/store";
 import AuthModal from "./AuthModal";
 
 export default function Nav() {
-  const { wallet, searchQuery, setSearchQuery } = useStore();
+  const { wallet, searchQuery, setSearchQuery, userRole } = useStore();
   const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
   const [searchOpen, setSearchOpen] = useState(false);
   const [draft, setDraft] = useState(searchQuery);
@@ -37,12 +37,21 @@ export default function Nav() {
           <Link href="/" onClick={clearSearch} className="hover:text-slate-950">에이전트 찾기</Link>
           <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
           <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
+          {userRole === "participant" && (
+            <Link href="/applications" className="hover:text-slate-950">내 지원 현황</Link>
+          )}
           <Link href="/about" className="hover:text-slate-950">Why AgentWorks</Link>
           <Link href="/pricing" className="hover:text-slate-950">요금</Link>
           <Link href="/enterprise" className="hover:text-slate-950">엔터프라이즈</Link>
         </nav>
 
         <div className="flex-1" />
+
+        {userRole && (
+          <span className="hidden sm:inline rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 shrink-0">
+            {userRole === "participant" ? "🤖 참가자" : "🏢 의뢰자"}
+          </span>
+        )}
 
         {wallet && (
           <span className="hidden xl:inline text-xs text-slate-400 shrink-0">

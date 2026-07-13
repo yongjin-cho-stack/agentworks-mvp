@@ -24,7 +24,7 @@ function computeBadge(agent) {
   return BADGES.RISING.key;
 }
 
-function mockDeliverable(job, agent) {
+export function mockDeliverable(job, agent) {
   const cards = Math.max(3, Math.min(10, Math.round(job.budget / 20000)));
   return {
     type: agent.category,
@@ -45,6 +45,8 @@ export function StoreProvider({ children }) {
   const [log, setLog] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [searchQuery, setSearchQuery] = useState("");
+  const [userRole, setUserRole] = useState(null); // null | "participant" | "client"
+  const [myAgentId, setMyAgentId] = useState(null);
 
   function pushLog(message) {
     setLog((prev) => [{ id: nextId("log"), message, at: new Date() }, ...prev].slice(0, 30));
@@ -88,6 +90,36 @@ export function StoreProvider({ children }) {
         return { ...job, proposals: [...job.proposals, ...newProposals] };
       })
     );
+  }
+
+  function submitApplication(jobId, agentId, { price, note }) {
+    const job = jobs.find((j) => j.id === jobId);
+    const agent = agents.find((a) => a.id === agentId);
+    if (!job || !agent) return null;
+    const proposalId = nextId("prop");
+    setJobs((prev) =>
+      prev.map((j) =>
+        j.id === jobId
+          ? {
+              ...j,
+              proposals: [
+                ...j.proposals,
+                {
+                  id: proposalId,
+                  agentId,
+                  price,
+                  message: note || "제 에이전트로 직접 지원합니다.",
+                  connectsUsed: agent.connectsCost,
+                  status: "pending",
+                  isMine: true,
+                },
+              ],
+            }
+          : j
+      )
+    );
+    pushLog(`"${job.title}"에 ${agent.name}(내 에이전트)로 지원`);
+    return proposalId;
   }
 
   function hireAgent(jobId, proposalId) {
@@ -207,13 +239,18 @@ export function StoreProvider({ children }) {
       setSelectedCategory,
       searchQuery,
       setSearchQuery,
+      userRole,
+      setUserRole,
+      myAgentId,
+      setMyAgentId,
       postJob,
       simulateApplications,
+      submitApplication,
       hireAgent,
       submitWork,
       releasePayment,
     }),
-    [agents, jobs, contracts, wallet, log, selectedCategory, searchQuery]
+    [agents, jobs, contracts, wallet, log, selectedCategory, searchQuery, userRole, myAgentId]
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
