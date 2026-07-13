@@ -22,6 +22,7 @@ export default function Nav() {
           <Link href="/" className="hover:text-slate-950">에이전트 찾기</Link>
           <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
           <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
+          <Link href="/pricing" className="hover:text-slate-950">요금</Link>
         </nav>
 
         <div className="flex-1" />

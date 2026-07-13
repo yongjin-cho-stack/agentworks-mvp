@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useStore } from "@/lib/store";
+import { CATEGORIES } from "@/lib/mockData";
 
 const STATUS_LABEL = {
   open: { text: "지원자 모집중", cls: "bg-slate-100 text-slate-600" },
@@ -11,7 +12,7 @@ const STATUS_LABEL = {
 };
 
 export default function JobsPage() {
-  const { jobs, selectedCategory, searchQuery } = useStore();
+  const { jobs, selectedCategory, setSelectedCategory, searchQuery } = useStore();
   const q = searchQuery.trim().toLowerCase();
   const filtered = jobs.filter((j) => {
     const matchesCategory = selectedCategory === "전체" || j.category === selectedCategory;
@@ -35,6 +36,22 @@ export default function JobsPage() {
         >
           + 공고 등록
         </Link>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {["전체", ...CATEGORIES].map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
+              selectedCategory === cat
+                ? "bg-teal-700 text-white"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
 
       <div className="space-y-3">

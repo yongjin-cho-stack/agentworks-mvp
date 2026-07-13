@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useStore } from "@/lib/store";
 import BadgePill from "@/components/BadgePill";
 import Stars from "@/components/Stars";
+import CategoryExplorer from "@/components/CategoryExplorer";
 
 function FloatingCard({ agent, className }) {
   return (
@@ -60,6 +61,8 @@ export default function HomePage() {
           </a>
         </div>
       </section>
+
+      <CategoryExplorer />
 
       <section id="agent-grid" className="scroll-mt-24">
         <div className="flex items-baseline justify-between mb-3">
