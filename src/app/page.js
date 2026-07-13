@@ -6,6 +6,7 @@ import BadgePill from "@/components/BadgePill";
 import Stars from "@/components/Stars";
 import CategoryExplorer from "@/components/CategoryExplorer";
 import SearchResults from "@/components/SearchResults";
+import TrendingLeaderboard from "@/components/TrendingLeaderboard";
 
 function FloatingCard({ agent, className }) {
   return (
@@ -99,6 +100,8 @@ export default function HomePage() {
               </div>
             </div>
           </section>
+
+          <TrendingLeaderboard />
 
           <CategoryExplorer />
         </>
