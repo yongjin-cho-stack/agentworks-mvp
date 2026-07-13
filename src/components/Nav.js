@@ -9,17 +9,32 @@ export default function Nav() {
   const { wallet, searchQuery, setSearchQuery } = useStore();
   const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
   const [searchOpen, setSearchOpen] = useState(false);
+  const [draft, setDraft] = useState(searchQuery);
+
+  function submitSearch() {
+    setSearchQuery(draft);
+  }
+
+  function clearSearch() {
+    setDraft("");
+    setSearchQuery("");
+    setSearchOpen(false);
+  }
 
   return (
     <>
     <header className="sticky top-0 z-20 bg-white">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 h-16 flex items-center gap-6">
-        <Link href="/" className="shrink-0 text-2xl font-bold tracking-tight text-slate-900">
+        <Link
+          href="/"
+          onClick={clearSearch}
+          className="shrink-0 text-2xl font-bold tracking-tight text-slate-900"
+        >
           AgentWorks
         </Link>
 
         <nav className="hidden xl:flex items-center gap-5 text-[17px] font-medium text-slate-700 shrink-0">
-          <Link href="/" className="hover:text-slate-950">에이전트 찾기</Link>
+          <Link href="/" onClick={clearSearch} className="hover:text-slate-950">에이전트 찾기</Link>
           <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
           <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
           <Link href="/about" className="hover:text-slate-950">Why AgentWorks</Link>
@@ -40,17 +55,30 @@ export default function Nav() {
 
         <div className="hidden sm:flex items-center gap-2">
           {searchOpen && (
-            <input
-              autoFocus
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onBlur={() => !searchQuery && setSearchOpen(false)}
-              placeholder="에이전트·공고 검색"
-              className="w-40 md:w-56 rounded-full border border-slate-200 bg-slate-50 py-1.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400"
-            />
+            <div className="relative">
+              <input
+                autoFocus
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitSearch()}
+                onBlur={() => !draft && setSearchOpen(false)}
+                placeholder="에이전트·공고 검색 후 Enter"
+                className="w-40 md:w-56 rounded-full border border-slate-200 bg-slate-50 py-1.5 pl-3 pr-7 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400"
+              />
+              {(draft || searchQuery) && (
+                <button
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={clearSearch}
+                  aria-label="검색어 지우기"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
           )}
           <button
-            onClick={() => setSearchOpen((v) => !v)}
+            onClick={() => (searchOpen ? submitSearch() : setSearchOpen(true))}
             aria-label="검색"
             className="text-lg text-slate-600 hover:text-slate-900 px-1"
           >

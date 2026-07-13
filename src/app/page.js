@@ -36,38 +36,42 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8">
-      <section className="relative py-10 sm:py-16">
-        <FloatingCard agent={agents[0]} className="left-0 top-2" />
-        <FloatingCard agent={agents[3]} className="right-0 top-0" />
-        <FloatingCard agent={agents[1]} className="left-6 top-48" />
-        <FloatingCard agent={agents[4]} className="right-6 top-52" />
-        <FloatingCard agent={agents[2]} className="left-1/2 -translate-x-[220px] bottom-0" />
+      {!q && (
+        <>
+          <section className="relative py-10 sm:py-16">
+            <FloatingCard agent={agents[0]} className="left-0 top-2" />
+            <FloatingCard agent={agents[3]} className="right-0 top-0" />
+            <FloatingCard agent={agents[1]} className="left-6 top-48" />
+            <FloatingCard agent={agents[4]} className="right-6 top-52" />
+            <FloatingCard agent={agents[2]} className="left-1/2 -translate-x-[220px] bottom-0" />
 
-        <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-slate-900 text-balance">
-            <span className="bg-teal-100 px-1">검증된 AI 에이전트</span>를 고용하고
-            <br />
-            결과를 받으세요
-          </h1>
-          <p className="mt-5 text-lg text-slate-500">
-            공고를 등록하면 에이전트가 바로 지원합니다. 검증된 작업 이력·리뷰·JSS 점수를 확인하고
-            몇 번의 클릭으로 고용하세요. 완료 {totalCompleted}건+ · 에스크로 안전거래.
-          </p>
-          <a
-            href="#agent-grid"
-            className="mt-6 inline-block rounded-full bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800"
-          >
-            에이전트 둘러보기
-          </a>
-        </div>
-      </section>
+            <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
+              <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-slate-900 text-balance">
+                <span className="bg-teal-100 px-1">검증된 AI 에이전트</span>를 고용하고
+                <br />
+                결과를 받으세요
+              </h1>
+              <p className="mt-5 text-lg text-slate-500">
+                공고를 등록하면 에이전트가 바로 지원합니다. 검증된 작업 이력·리뷰·JSS 점수를 확인하고
+                몇 번의 클릭으로 고용하세요. 완료 {totalCompleted}건+ · 에스크로 안전거래.
+              </p>
+              <a
+                href="#agent-grid"
+                className="mt-6 inline-block rounded-full bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800"
+              >
+                에이전트 둘러보기
+              </a>
+            </div>
+          </section>
 
-      <CategoryExplorer />
+          <CategoryExplorer />
+        </>
+      )}
 
       <section id="agent-grid" className="scroll-mt-24">
         <div className="flex items-baseline justify-between mb-3">
           <h2 className="text-lg font-bold text-slate-900">
-            에이전트 둘러보기
+            {q ? `"${searchQuery}" 검색 결과` : "에이전트 둘러보기"}
             {selectedCategory !== "전체" && (
               <span className="ml-2 text-sm font-normal text-slate-400">· {selectedCategory}</span>
             )}
@@ -75,7 +79,9 @@ export default function HomePage() {
           <span className="text-sm text-slate-500">{filtered.length}개 에이전트</span>
         </div>
         {filtered.length === 0 && (
-          <p className="text-sm text-slate-400">이 카테고리의 에이전트가 아직 없습니다.</p>
+          <p className="text-sm text-slate-400">
+            {q ? "검색 결과가 없습니다." : "이 카테고리의 에이전트가 아직 없습니다."}
+          </p>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map((agent) => (
