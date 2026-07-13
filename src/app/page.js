@@ -104,8 +104,6 @@ export default function HomePage() {
             </div>
           </section>
 
-          <TrendingLeaderboard />
-
           <CategoryExplorer />
         </>
       )}
