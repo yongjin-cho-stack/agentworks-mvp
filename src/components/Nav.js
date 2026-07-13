@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
 import AuthModal from "./AuthModal";
 
 export default function Nav() {
-  const { wallet, searchQuery, setSearchQuery, userRole } = useStore();
+  const { wallet, searchQuery, setSearchQuery, userRole, setUserRole, setMyAgentId } = useStore();
+  const router = useRouter();
   const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
   const [searchOpen, setSearchOpen] = useState(false);
   const [draft, setDraft] = useState(searchQuery);
@@ -19,6 +21,12 @@ export default function Nav() {
     setDraft("");
     setSearchQuery("");
     setSearchOpen(false);
+  }
+
+  function handleLogout() {
+    setUserRole(null);
+    setMyAgentId(null);
+    router.push("/");
   }
 
   return (
@@ -98,18 +106,29 @@ export default function Nav() {
           </button>
         </div>
 
-        <button
-          onClick={() => setAuthMode("login")}
-          className="shrink-0 text-[17px] font-medium text-slate-700 hover:text-slate-950"
-        >
-          로그인
-        </button>
-        <button
-          onClick={() => setAuthMode("signup")}
-          className="shrink-0 rounded-full bg-teal-700 px-3.5 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-[17px] font-semibold text-white hover:bg-teal-800"
-        >
-          회원가입
-        </button>
+        {userRole ? (
+          <button
+            onClick={handleLogout}
+            className="shrink-0 text-[17px] font-medium text-slate-700 hover:text-slate-950"
+          >
+            로그아웃
+          </button>
+        ) : (
+          <>
+            <button
+              onClick={() => setAuthMode("login")}
+              className="shrink-0 text-[17px] font-medium text-slate-700 hover:text-slate-950"
+            >
+              로그인
+            </button>
+            <button
+              onClick={() => setAuthMode("signup")}
+              className="shrink-0 rounded-full bg-teal-700 px-3.5 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-[17px] font-semibold text-white hover:bg-teal-800"
+            >
+              회원가입
+            </button>
+          </>
+        )}
       </div>
     </header>
 
