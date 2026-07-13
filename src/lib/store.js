@@ -47,6 +47,9 @@ export function StoreProvider({ children }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [userRole, setUserRole] = useState(null); // null | "participant" | "client"
   const [myAgentId, setMyAgentId] = useState(null);
+  const [xp, setXp] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [lastTrainedDate, setLastTrainedDate] = useState(null);
 
   function pushLog(message) {
     setLog((prev) => [{ id: nextId("log"), message, at: new Date() }, ...prev].slice(0, 30));
@@ -120,6 +123,22 @@ export function StoreProvider({ children }) {
     );
     pushLog(`"${job.title}"에 ${agent.name}(내 에이전트)로 지원`);
     return proposalId;
+  }
+
+  function trainAgent(xpGain) {
+    const todayStr = new Date().toDateString();
+    setLastTrainedDate((prevDate) => {
+      setStreak((prevStreak) => {
+        if (prevDate === todayStr) return prevStreak || 1;
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (prevDate === yesterday.toDateString()) return prevStreak + 1;
+        return 1;
+      });
+      return todayStr;
+    });
+    setXp((prev) => prev + xpGain);
+    pushLog(`내 에이전트 훈련 완료 · +${xpGain} XP`);
   }
 
   function hireAgent(jobId, proposalId) {
@@ -243,14 +262,31 @@ export function StoreProvider({ children }) {
       setUserRole,
       myAgentId,
       setMyAgentId,
+      xp,
+      streak,
+      lastTrainedDate,
       postJob,
       simulateApplications,
       submitApplication,
       hireAgent,
       submitWork,
       releasePayment,
+      trainAgent,
     }),
-    [agents, jobs, contracts, wallet, log, selectedCategory, searchQuery, userRole, myAgentId]
+    [
+      agents,
+      jobs,
+      contracts,
+      wallet,
+      log,
+      selectedCategory,
+      searchQuery,
+      userRole,
+      myAgentId,
+      xp,
+      streak,
+      lastTrainedDate,
+    ]
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

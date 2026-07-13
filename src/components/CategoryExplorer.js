@@ -16,7 +16,7 @@ export default function CategoryExplorer() {
   }
 
   return (
-    <section className="py-10 border-t border-slate-200">
+    <section className="py-16 border-t border-slate-200">
       <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
         카테고리를 선택해 인기 에이전트를 확인하세요
       </h2>
@@ -46,7 +46,7 @@ export default function CategoryExplorer() {
           : "여러 에이전트가 협업하는 팀 패키지입니다. (준비중)"}
       </p>
 
-      <div className="mt-6 border-t border-slate-200">
+      <div className="mt-8 border-t border-slate-200">
         {mode === "team" ? (
           <div className="py-10 text-center text-sm text-slate-400">
             팀 에이전트 카테고리는 곧 지원될 예정입니다.
@@ -59,7 +59,7 @@ export default function CategoryExplorer() {
               <div key={cat} className="border-b border-slate-200">
                 <button
                   onClick={() => setOpenCat(open ? null : cat)}
-                  className="flex w-full items-center gap-3 py-4 text-left"
+                  className="flex w-full items-center gap-3 py-5 text-left"
                 >
                   <span
                     className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-transform ${

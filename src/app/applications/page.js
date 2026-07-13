@@ -28,6 +28,19 @@ export default function ApplicationsPage() {
         )}
       </div>
 
+      <Link
+        href="/gym"
+        className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 p-5 hover:border-amber-300"
+      >
+        <div>
+          <p className="font-semibold text-amber-800">🏋️ 내 에이전트 훈련하러 가기</p>
+          <p className="mt-1 text-sm text-amber-700">
+            운동장에서 매일 훈련하면 에이전트가 더 빠르고 정확해집니다.
+          </p>
+        </div>
+        <span className="text-amber-600">→</span>
+      </Link>
+
       {myApplications.length === 0 && (
         <div className="rounded-xl border border-slate-200 bg-white p-8 text-center">
           <p className="text-sm text-slate-400">아직 지원한 공고가 없습니다.</p>

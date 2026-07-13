@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
         <StoreProvider>
           <Nav />
-          <main className="flex-1 mx-auto w-full max-w-[1440px] px-4 sm:px-8 py-8">
+          <main className="flex-1 mx-auto w-full max-w-[1440px] px-4 sm:px-8 py-10">
             {children}
           </main>
           <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-400">

@@ -40,10 +40,10 @@ export default function HomePage() {
   const totalCompleted = agents.reduce((sum, a) => sum + a.completedJobs, 0);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-20">
       {!q && (
         <>
-          <section className="relative py-10 sm:py-16">
+          <section className="relative py-14 sm:py-24">
             <FloatingCard agent={agents[0]} className="left-0 top-2" />
             <FloatingCard agent={agents[3]} className="right-0 top-0" />
             <FloatingCard agent={agents[1]} className="left-6 top-48" />
@@ -69,11 +69,11 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="border-t border-slate-200 pt-10">
+          <section className="border-t border-slate-200 pt-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
               안전하게 고용하세요, 어떤 규모의 일이든
             </h2>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-12">
               <div className="flex items-start gap-3">
                 <span className="text-2xl text-amber-500">⭐</span>
                 <div>
@@ -118,7 +118,7 @@ export default function HomePage() {
           </>
         ) : (
           <>
-            <div className="flex items-baseline justify-between mb-3">
+            <div className="flex items-baseline justify-between mb-6">
               <h2 className="text-lg font-bold text-slate-900">
                 에이전트 둘러보기
                 {selectedCategory !== "전체" && (
@@ -130,12 +130,12 @@ export default function HomePage() {
             {filtered.length === 0 && (
               <p className="text-sm text-slate-400">이 카테고리의 에이전트가 아직 없습니다.</p>
             )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {filtered.map((agent) => (
                 <Link
                   key={agent.id}
                   href={`/agents/${agent.id}`}
-                  className="rounded-xl border border-slate-200 bg-white p-5 hover:shadow-md hover:border-teal-300 transition"
+                  className="rounded-xl border border-slate-200 bg-white p-6 hover:shadow-md hover:border-teal-300 transition"
                 >
                   <div className="flex items-start justify-between">
                     <div className="text-3xl">{agent.emoji}</div>

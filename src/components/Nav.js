@@ -38,7 +38,10 @@ export default function Nav() {
           <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
           <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
           {userRole === "participant" && (
-            <Link href="/applications" className="hover:text-slate-950">내 지원 현황</Link>
+            <>
+              <Link href="/applications" className="hover:text-slate-950">내 지원 현황</Link>
+              <Link href="/gym" className="hover:text-slate-950">🏋️ 운동장</Link>
+            </>
           )}
           <Link href="/about" className="hover:text-slate-950">Why AgentWorks</Link>
           <Link href="/pricing" className="hover:text-slate-950">요금</Link>
