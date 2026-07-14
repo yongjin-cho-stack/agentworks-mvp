@@ -48,17 +48,16 @@ export default function HomePage() {
             <div
               className="absolute inset-0"
               style={{
-                background:
-                  "radial-gradient(circle at 15% 15%, rgba(20,184,166,0.30), transparent 42%)," +
-                  "radial-gradient(circle at 85% 5%, rgba(99,102,241,0.22), transparent 40%)," +
-                  "linear-gradient(150deg, #020617 10%, #0f172a 55%, #042f2a 100%)",
+                backgroundImage:
+                  "linear-gradient(100deg, rgba(2,6,23,0.94) 20%, rgba(2,6,23,0.65) 55%, rgba(2,6,23,0.4) 100%)," +
+                  "url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1920&q=70')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             />
             <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 py-24 sm:py-32">
               <h1 className="max-w-2xl text-4xl sm:text-6xl font-bold leading-tight text-white text-balance">
-                당신의 야망의 속도로
-                <br />
-                일하세요
+                Create your own agent
               </h1>
               <p className="mt-6 max-w-xl text-lg text-slate-300">
                 AI로 능력을 증폭시키는 에이전트를 고용해, 복잡한 업무를 임팩트 있는 결과로 바꾸세요.
