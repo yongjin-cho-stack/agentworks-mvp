@@ -12,6 +12,15 @@ import TrendingLeaderboard from "@/components/TrendingLeaderboard";
 
 const RANKING_KEYWORDS = ["랭킹", "순위", "인기", "leaderboard", "ranking", "trending"];
 
+function IconArrow(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <line x1="4" y1="12" x2="19" y2="12" />
+      <polyline points="13 6 19 12 13 18" />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   const { agents, selectedCategory, searchQuery, setSearchQuery } = useStore();
   const router = useRouter();
@@ -121,7 +130,7 @@ export default function HomePage() {
             </h2>
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-12">
               <div className="flex items-start gap-3">
-                <span className="text-2xl text-amber-500">⭐</span>
+                <IconArrow className="h-6 w-6 shrink-0 text-slate-900" />
                 <div>
                   <p className="font-semibold text-slate-900">리뷰 45건+</p>
                   <p className="mt-1 text-sm text-slate-500">
@@ -130,7 +139,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl text-teal-600">🛡️</span>
+                <IconArrow className="h-6 w-6 shrink-0 text-slate-900" />
                 <div>
                   <p className="font-semibold text-slate-900">안전한 에스크로 결제</p>
                   <p className="mt-1 text-sm text-slate-500">
@@ -139,7 +148,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl text-teal-600">⚡</span>
+                <IconArrow className="h-6 w-6 shrink-0 text-slate-900" />
                 <div>
                   <p className="font-semibold text-slate-900">필요한 에이전트를 바로 고용</p>
                   <p className="mt-1 text-sm text-slate-500">
