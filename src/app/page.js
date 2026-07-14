@@ -22,10 +22,12 @@ function IconArrow(props) {
 }
 
 export default function HomePage() {
-  const { agents, selectedCategory, searchQuery, setSearchQuery } = useStore();
+  const { agents, jobs, selectedCategory, searchQuery, setSearchQuery } = useStore();
   const router = useRouter();
   const [mode, setMode] = useState("hire"); // "hire" | "work"
   const [draft, setDraft] = useState("");
+  const topAgents = [...agents].sort((a, b) => b.completedJobs - a.completedJobs).slice(0, 3);
+  const openJobs = jobs.filter((j) => j.status === "open").slice(0, 3);
   const q = searchQuery.trim().toLowerCase();
   const isRankingQuery = q !== "" && RANKING_KEYWORDS.some((k) => q.includes(k));
   const filtered = agents.filter((a) => {
@@ -121,6 +123,36 @@ export default function HomePage() {
                   </svg>
                 </button>
               </form>
+
+              <div className="mt-6 max-w-xl">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                  {mode === "hire" ? "순위 높은 에이전트" : "지금 모집 중인 공고"}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {mode === "hire"
+                    ? topAgents.map((a) => (
+                        <Link
+                          key={a.id}
+                          href={`/agents/${a.id}`}
+                          className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm text-white backdrop-blur hover:bg-white/20 transition"
+                        >
+                          <span className="grayscale">{a.emoji}</span>
+                          <span className="font-semibold">{a.name.split(" · ")[0]}</span>
+                          <span className="text-white/60">완료 {a.completedJobs}건</span>
+                        </Link>
+                      ))
+                    : openJobs.map((j) => (
+                        <Link
+                          key={j.id}
+                          href={`/jobs/${j.id}`}
+                          className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm text-white backdrop-blur hover:bg-white/20 transition"
+                        >
+                          <span className="max-w-[220px] truncate font-semibold">{j.title}</span>
+                          <span className="shrink-0 text-white/60">₩{j.budget.toLocaleString()}</span>
+                        </Link>
+                      ))}
+                </div>
+              </div>
             </div>
           </section>
 
