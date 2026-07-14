@@ -25,7 +25,7 @@ export default function CategoryExplorer() {
         <button
           onClick={() => setMode("solo")}
           className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-            mode === "solo" ? "bg-teal-700 text-white" : "text-teal-700 hover:bg-teal-50"
+            mode === "solo" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           1인 에이전트
@@ -33,7 +33,7 @@ export default function CategoryExplorer() {
         <button
           onClick={() => setMode("team")}
           className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-            mode === "team" ? "bg-teal-700 text-white" : "text-teal-700 hover:bg-teal-50"
+            mode === "team" ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
           }`}
         >
           팀 에이전트

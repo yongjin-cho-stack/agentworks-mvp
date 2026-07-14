@@ -183,7 +183,7 @@ export default function Nav() {
             </button>
             <button
               onClick={() => setAuthMode("signup")}
-              className="shrink-0 rounded-full bg-teal-700 px-3.5 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-[17px] font-semibold text-white hover:bg-teal-800"
+              className="shrink-0 rounded-full bg-slate-900 px-3.5 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-[17px] font-semibold text-white hover:bg-slate-800"
             >
               회원가입
             </button>
