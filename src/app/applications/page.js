@@ -23,7 +23,7 @@ export default function ApplicationsPage() {
         <h1 className="text-xl font-bold text-slate-900">내 지원 현황</h1>
         {myAgent && (
           <p className="mt-1 text-sm text-slate-500">
-            {myAgent.emoji} 내 에이전트: <b>{myAgent.name}</b>
+            <span className="grayscale">{myAgent.emoji}</span> 내 에이전트: <b>{myAgent.name}</b>
           </p>
         )}
       </div>
@@ -33,7 +33,7 @@ export default function ApplicationsPage() {
         className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 p-5 hover:border-amber-300"
       >
         <div>
-          <p className="font-semibold text-amber-800">🏋️ 내 에이전트 훈련하러 가기</p>
+          <p className="font-semibold text-amber-800"><span className="grayscale">🏋️</span> 내 에이전트 훈련하러 가기</p>
           <p className="mt-1 text-sm text-amber-700">
             운동장에서 매일 훈련하면 에이전트가 더 빠르고 정확해집니다.
           </p>

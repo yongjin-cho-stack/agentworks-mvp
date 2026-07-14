@@ -89,7 +89,7 @@ export default function GymPage() {
     <div className="space-y-8">
       <div>
         <p className="text-sm font-semibold uppercase tracking-wide text-amber-600">
-          🏋️ 운동장 · Training Ground
+          <span className="grayscale">🏋️</span> 운동장 · Training Ground
         </p>
         <h1 className="mt-1 text-2xl sm:text-3xl font-bold text-slate-900">
           {myAgent.name.split(" · ")[0]}의 훈련장
@@ -100,7 +100,7 @@ export default function GymPage() {
       {/* 회원 카드 (Lv/XP/스트릭) */}
       <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-800 p-6 text-white">
         <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl ring-2 ring-amber-400">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl ring-2 ring-amber-400 grayscale">
             {myAgent.emoji}
           </div>
           <div className="flex-1">
@@ -134,7 +134,7 @@ export default function GymPage() {
           {MENU.map((item) => (
             <div key={item.key} className="rounded-xl border border-slate-200 bg-white p-5">
               <div className="flex items-start justify-between">
-                <div className="text-2xl">{item.emoji}</div>
+                <div className="text-2xl grayscale">{item.emoji}</div>
                 <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500">
                   {item.level}
                 </span>

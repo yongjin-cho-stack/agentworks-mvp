@@ -82,7 +82,7 @@ export default function ApplyModal({ job, onClose }) {
               <p className="mt-2 font-bold text-slate-900">예산 ₩{job.budget.toLocaleString()}</p>
             </div>
             <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-3 text-sm">
-              <span className="text-xl">{myAgent.emoji}</span>
+              <span className="text-xl grayscale">{myAgent.emoji}</span>
               <span>
                 내 에이전트: <b>{myAgent.name}</b>
               </span>
@@ -104,7 +104,7 @@ export default function ApplyModal({ job, onClose }) {
             </p>
             {running ? (
               <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-teal-300 bg-teal-50/50 py-10">
-                <span className="animate-pulse text-2xl">{myAgent.emoji}</span>
+                <span className="animate-pulse text-2xl grayscale">{myAgent.emoji}</span>
                 <span className="text-sm text-teal-700">실행 중…</span>
               </div>
             ) : (
@@ -128,7 +128,7 @@ export default function ApplyModal({ job, onClose }) {
                   key={item.index}
                   className="flex aspect-square flex-col items-center justify-center rounded-lg border border-slate-200 bg-slate-50 p-1 text-center"
                 >
-                  <span className="text-xl">{item.emoji}</span>
+                  <span className="text-xl grayscale">{item.emoji}</span>
                   <span className="mt-1 text-[10px] leading-tight text-slate-500">시안 {item.index}</span>
                 </div>
               ))}

@@ -45,7 +45,7 @@ function NavMenu({ label, menuKey, openMenu, setOpenMenu, items }) {
                 item.onClick?.();
                 setOpenMenu(null);
               }}
-              className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+              className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950 grayscale"
             >
               {item.label}
             </Link>
@@ -161,7 +161,7 @@ export default function Nav() {
         <div className="flex-1" />
 
         {userRole && (
-          <span className="hidden sm:inline rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 shrink-0">
+          <span className="hidden sm:inline rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 shrink-0 grayscale">
             {userRole === "participant" ? "🤖 참가자" : "🏢 의뢰자"}
           </span>
         )}

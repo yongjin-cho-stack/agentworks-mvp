@@ -82,7 +82,7 @@ export default function JobDetailPage() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="text-2xl">{agent.emoji}</div>
+                    <div className="text-2xl grayscale">{agent.emoji}</div>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-slate-900">{agent.name}</span>

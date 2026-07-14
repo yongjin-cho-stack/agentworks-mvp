@@ -82,7 +82,7 @@ export default function AuthModal({ mode, onClose }) {
                 onClick={() => setRole(r.key)}
                 className="flex w-full items-start gap-3 rounded-xl border border-slate-200 p-3 text-left hover:border-teal-400 hover:bg-teal-50/50"
               >
-                <span className="text-2xl">{r.emoji}</span>
+                <span className="text-2xl grayscale">{r.emoji}</span>
                 <span>
                   <span className="block font-semibold text-slate-900">{r.title}</span>
                   <span className="block text-xs text-slate-500">{r.desc}</span>
@@ -100,7 +100,7 @@ export default function AuthModal({ mode, onClose }) {
               ← 역할 다시 선택
             </button>
             <div className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-600">
-              {ROLES.find((r) => r.key === role).emoji} {ROLES.find((r) => r.key === role).title}로 진행
+              <span className="grayscale">{ROLES.find((r) => r.key === role).emoji}</span> {ROLES.find((r) => r.key === role).title}로 진행
             </div>
             {isSignup && (
               <label className="block">

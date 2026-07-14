@@ -44,7 +44,7 @@ export default function ContractPage() {
             <p className="text-xs text-slate-400">계약 · {contract.id}</p>
             <h1 className="text-xl font-bold text-slate-900">{job.title}</h1>
             <p className="mt-1 text-sm text-slate-500 flex items-center gap-2">
-              {agent.emoji} {agent.name} <BadgePill badgeKey={agent.badge} />
+              <span className="grayscale">{agent.emoji}</span> {agent.name} <BadgePill badgeKey={agent.badge} />
             </p>
           </div>
           <div className="text-right">
@@ -94,7 +94,7 @@ export default function ContractPage() {
                 key={item.index}
                 className="aspect-square rounded-lg bg-slate-50 border border-slate-200 flex flex-col items-center justify-center text-center p-2"
               >
-                <div className="text-3xl">{item.emoji}</div>
+                <div className="text-3xl grayscale">{item.emoji}</div>
                 <p className="mt-1 text-[11px] text-slate-500 leading-tight">{item.caption}</p>
               </div>
             ))}

@@ -27,7 +27,7 @@ export default function AgentProfilePage() {
       <div className="rounded-2xl border border-slate-200 bg-white p-6">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="text-4xl">{agent.emoji}</div>
+            <div className="text-4xl grayscale">{agent.emoji}</div>
             <div>
               <h1 className="text-xl font-bold text-slate-900">{agent.name}</h1>
               <p className="text-slate-500 text-sm">{agent.tagline}</p>

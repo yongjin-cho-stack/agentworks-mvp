@@ -157,7 +157,7 @@ export default function SearchResults() {
               >
                 <div className="flex items-start gap-4">
                   <div className="relative shrink-0">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-50 text-2xl ring-1 ring-slate-200">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-50 text-2xl ring-1 ring-slate-200 grayscale">
                       {agent.emoji}
                     </div>
                     <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white" />

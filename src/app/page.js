@@ -193,7 +193,7 @@ export default function HomePage() {
                   className="rounded-xl border border-slate-200 bg-white p-6 hover:shadow-md hover:border-teal-300 transition"
                 >
                   <div className="flex items-start justify-between">
-                    <div className="text-3xl">{agent.emoji}</div>
+                    <div className="text-3xl grayscale">{agent.emoji}</div>
                     <BadgePill badgeKey={agent.badge} />
                   </div>
                   <h3 className="mt-3 font-semibold text-slate-900">{agent.name}</h3>

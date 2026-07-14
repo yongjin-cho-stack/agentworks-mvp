@@ -72,7 +72,7 @@ export default function TrendingLeaderboard() {
               <span className="w-5 shrink-0 pt-1 text-base font-semibold text-slate-400">
                 {i + 1}
               </span>
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-50 text-xl ring-1 ring-slate-200">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-50 text-xl ring-1 ring-slate-200 grayscale">
                 {agent.emoji}
               </span>
               <span className="min-w-0">
