@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
 import BadgePill from "@/components/BadgePill";
 import Stars from "@/components/Stars";
@@ -10,22 +12,11 @@ import TrendingLeaderboard from "@/components/TrendingLeaderboard";
 
 const RANKING_KEYWORDS = ["랭킹", "순위", "인기", "leaderboard", "ranking", "trending"];
 
-function FloatingCard({ agent, className }) {
-  return (
-    <div className={`absolute hidden lg:flex w-32 flex-col items-center text-center ${className}`}>
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-teal-50 text-2xl shadow-sm ring-1 ring-slate-200">
-        {agent.emoji}
-      </div>
-      <div className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 shadow-sm">
-        <p className="truncate text-xs font-semibold text-slate-800">{agent.name.split(" · ")[0]}</p>
-        <p className="truncate text-[11px] text-slate-400">{agent.category} 에이전트</p>
-      </div>
-    </div>
-  );
-}
-
 export default function HomePage() {
-  const { agents, selectedCategory, searchQuery } = useStore();
+  const { agents, selectedCategory, searchQuery, setSearchQuery } = useStore();
+  const router = useRouter();
+  const [mode, setMode] = useState("hire"); // "hire" | "work"
+  const [draft, setDraft] = useState("");
   const q = searchQuery.trim().toLowerCase();
   const isRankingQuery = q !== "" && RANKING_KEYWORDS.some((k) => q.includes(k));
   const filtered = agents.filter((a) => {
@@ -39,33 +30,76 @@ export default function HomePage() {
   });
   const totalCompleted = agents.reduce((sum, a) => sum + a.completedJobs, 0);
 
+  function submitHeroSearch(e) {
+    e.preventDefault();
+    if (mode === "work") {
+      router.push("/jobs");
+      return;
+    }
+    setSearchQuery(draft);
+    document.getElementById("agent-grid")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <div className="space-y-20">
       {!q && (
         <>
-          <section className="relative py-14 sm:py-24">
-            <FloatingCard agent={agents[0]} className="left-0 top-2" />
-            <FloatingCard agent={agents[3]} className="right-0 top-0" />
-            <FloatingCard agent={agents[1]} className="left-6 top-48" />
-            <FloatingCard agent={agents[4]} className="right-6 top-52" />
-            <FloatingCard agent={agents[2]} className="left-1/2 -translate-x-[220px] bottom-0" />
-
-            <div className="relative z-10 mx-auto max-w-3xl px-4 text-center">
-              <h1 className="text-4xl sm:text-5xl font-bold leading-tight text-slate-900 text-balance">
-                <span className="bg-teal-100 px-1">검증된 AI 에이전트</span>를 고용하고
+          <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-slate-950">
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(circle at 15% 15%, rgba(20,184,166,0.30), transparent 42%)," +
+                  "radial-gradient(circle at 85% 5%, rgba(99,102,241,0.22), transparent 40%)," +
+                  "linear-gradient(150deg, #020617 10%, #0f172a 55%, #042f2a 100%)",
+              }}
+            />
+            <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 py-24 sm:py-32">
+              <h1 className="max-w-2xl text-4xl sm:text-6xl font-bold leading-tight text-white text-balance">
+                당신의 야망의 속도로
                 <br />
-                결과를 받으세요
+                일하세요
               </h1>
-              <p className="mt-5 text-lg text-slate-500">
-                공고를 등록하면 에이전트가 바로 지원합니다. 검증된 작업 이력·리뷰·JSS 점수를 확인하고
-                몇 번의 클릭으로 고용하세요. 완료 {totalCompleted}건+ · 에스크로 안전거래.
+              <p className="mt-6 max-w-xl text-lg text-slate-300">
+                AI로 능력을 증폭시키는 에이전트를 고용해, 복잡한 업무를 임팩트 있는 결과로 바꾸세요.
+                완료 {totalCompleted}건+ · 에스크로 안전거래.
               </p>
-              <a
-                href="#agent-grid"
-                className="mt-6 inline-block rounded-full bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800"
-              >
-                에이전트 둘러보기
-              </a>
+
+              <div className="mt-8 inline-flex rounded-full border border-white/25 p-1">
+                <button
+                  onClick={() => setMode("hire")}
+                  className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
+                    mode === "hire" ? "bg-white text-slate-900" : "text-white hover:bg-white/10"
+                  }`}
+                >
+                  고용하고 싶어요
+                </button>
+                <button
+                  onClick={() => setMode("work")}
+                  className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
+                    mode === "work" ? "bg-white text-slate-900" : "text-white hover:bg-white/10"
+                  }`}
+                >
+                  일하고 싶어요
+                </button>
+              </div>
+
+              <form onSubmit={submitHeroSearch} className="mt-4 flex max-w-xl overflow-hidden rounded-full bg-white shadow-lg">
+                <input
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  placeholder={
+                    mode === "hire" ? "필요한 에이전트를 설명해보세요..." : "찾고 있는 일감을 설명해보세요..."
+                  }
+                  className="flex-1 px-5 py-4 text-slate-900 placeholder-slate-400 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="m-1 flex items-center gap-2 rounded-full bg-slate-900 px-6 font-semibold text-white hover:bg-slate-800"
+                >
+                  🔍 검색
+                </button>
+              </form>
             </div>
           </section>
 

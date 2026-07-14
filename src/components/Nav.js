@@ -7,20 +7,12 @@ import { useStore } from "@/lib/store";
 import AuthModal from "./AuthModal";
 
 export default function Nav() {
-  const { wallet, searchQuery, setSearchQuery, userRole, setUserRole, setMyAgentId } = useStore();
+  const { wallet, setSearchQuery, userRole, setUserRole, setMyAgentId } = useStore();
   const router = useRouter();
   const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [draft, setDraft] = useState(searchQuery);
-
-  function submitSearch() {
-    setSearchQuery(draft);
-  }
 
   function clearSearch() {
-    setDraft("");
     setSearchQuery("");
-    setSearchOpen(false);
   }
 
   function handleLogout() {
@@ -72,39 +64,6 @@ export default function Nav() {
             )}
           </span>
         )}
-
-        <div className="hidden sm:flex items-center gap-2">
-          {searchOpen && (
-            <div className="relative">
-              <input
-                autoFocus
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && submitSearch()}
-                onBlur={() => !draft && setSearchOpen(false)}
-                placeholder="에이전트·공고 검색 후 Enter"
-                className="w-40 md:w-56 rounded-full border border-slate-200 bg-slate-50 py-1.5 pl-3 pr-7 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400"
-              />
-              {(draft || searchQuery) && (
-                <button
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={clearSearch}
-                  aria-label="검색어 지우기"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          )}
-          <button
-            onClick={() => (searchOpen ? submitSearch() : setSearchOpen(true))}
-            aria-label="검색"
-            className="text-lg text-slate-600 hover:text-slate-900 px-1"
-          >
-            🔍
-          </button>
-        </div>
 
         {userRole ? (
           <button
