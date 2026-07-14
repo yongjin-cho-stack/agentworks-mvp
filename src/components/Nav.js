@@ -1,15 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
+import { CATEGORIES } from "@/lib/mockData";
 import AuthModal from "./AuthModal";
 
+function ChevronDown({ className = "" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`h-3.5 w-3.5 ${className}`}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function NavMenu({ label, menuKey, openMenu, setOpenMenu, items }) {
+  const open = openMenu === menuKey;
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpenMenu(open ? null : menuKey)}
+        className="flex items-center gap-1 hover:text-slate-950"
+      >
+        {label}
+        <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute left-0 top-full mt-3 w-56 rounded-xl border border-slate-200 bg-white py-2 shadow-lg">
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={() => {
+                item.onClick?.();
+                setOpenMenu(null);
+              }}
+              className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Nav() {
-  const { wallet, setSearchQuery, userRole, setUserRole, setMyAgentId } = useStore();
+  const { setSearchQuery, setSelectedCategory, userRole, setUserRole, setMyAgentId } = useStore();
   const router = useRouter();
   const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
+  const [openMenu, setOpenMenu] = useState(null); // null | "agents" | "jobs"
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (navRef.current && !navRef.current.contains(e.target)) setOpenMenu(null);
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   function clearSearch() {
     setSearchQuery("");
@@ -20,6 +80,26 @@ export default function Nav() {
     setMyAgentId(null);
     router.push("/");
   }
+
+  const agentMenuItems = [
+    { label: "전체 에이전트", href: "/", onClick: () => setSelectedCategory("전체") },
+    ...CATEGORIES.map((cat) => ({
+      label: cat,
+      href: "/",
+      onClick: () => setSelectedCategory(cat),
+    })),
+  ];
+
+  const jobMenuItems = [
+    { label: "공고 보드 전체", href: "/jobs" },
+    { label: "공고 등록하기", href: "/jobs/new" },
+    ...(userRole === "participant"
+      ? [
+          { label: "내 지원 현황", href: "/applications" },
+          { label: "🏋️ 운동장", href: "/gym" },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -33,16 +113,24 @@ export default function Nav() {
           AgentWorks
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-5 text-[17px] font-medium text-slate-700 shrink-0">
-          <Link href="/" onClick={clearSearch} className="hover:text-slate-950">에이전트 찾기</Link>
-          <Link href="/jobs" className="hover:text-slate-950">일감 찾기</Link>
-          <Link href="/jobs/new" className="hover:text-slate-950">공고 등록</Link>
-          {userRole === "participant" && (
-            <>
-              <Link href="/applications" className="hover:text-slate-950">내 지원 현황</Link>
-              <Link href="/gym" className="hover:text-slate-950">🏋️ 운동장</Link>
-            </>
-          )}
+        <nav
+          ref={navRef}
+          className="hidden xl:flex items-center gap-8 text-[17px] font-medium text-slate-700 shrink-0"
+        >
+          <NavMenu
+            label="에이전트 찾기"
+            menuKey="agents"
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            items={agentMenuItems}
+          />
+          <NavMenu
+            label="일감 찾기"
+            menuKey="jobs"
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            items={jobMenuItems}
+          />
           <Link href="/about" className="hover:text-slate-950">Why AgentWorks</Link>
           <Link href="/pricing" className="hover:text-slate-950">요금</Link>
           <Link href="/enterprise" className="hover:text-slate-950">엔터프라이즈</Link>
@@ -53,15 +141,6 @@ export default function Nav() {
         {userRole && (
           <span className="hidden sm:inline rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 shrink-0">
             {userRole === "participant" ? "🤖 참가자" : "🏢 의뢰자"}
-          </span>
-        )}
-
-        {wallet && (
-          <span className="hidden xl:inline text-xs text-slate-400 shrink-0">
-            잔액 <b className="text-slate-700">₩{wallet.clientBalance.toLocaleString()}</b>
-            {wallet.escrow > 0 && (
-              <> · 에스크로 <b className="text-amber-600">₩{wallet.escrow.toLocaleString()}</b></>
-            )}
           </span>
         )}
 
