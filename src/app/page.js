@@ -55,7 +55,7 @@ export default function HomePage() {
                 backgroundPosition: "center",
               }}
             />
-            <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 py-24 sm:py-32">
+            <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 py-32 sm:py-48">
               <h1 className="max-w-2xl text-4xl sm:text-6xl font-bold leading-tight text-white text-balance">
                 Create your own agent
               </h1>
@@ -94,9 +94,22 @@ export default function HomePage() {
                 />
                 <button
                   type="submit"
-                  className="m-1 flex items-center gap-2 rounded-full bg-slate-900 px-6 font-semibold text-white hover:bg-slate-800"
+                  aria-label="검색"
+                  className="m-1 flex items-center justify-center rounded-full bg-slate-900 px-5 text-white hover:bg-slate-800"
                 >
-                  🔍 검색
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-5 w-5"
+                  >
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
                 </button>
               </form>
             </div>
