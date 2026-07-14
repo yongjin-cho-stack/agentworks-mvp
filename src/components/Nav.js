@@ -101,6 +101,10 @@ export default function Nav() {
       : []),
   ];
 
+  const aboutMenuItems = [{ label: "AgentWorks 소개", href: "/about" }];
+  const pricingMenuItems = [{ label: "요금제 보기", href: "/pricing" }];
+  const enterpriseMenuItems = [{ label: "엔터프라이즈 문의", href: "/enterprise" }];
+
   return (
     <>
     <header className="sticky top-0 z-20 bg-white">
@@ -115,7 +119,7 @@ export default function Nav() {
 
         <nav
           ref={navRef}
-          className="hidden xl:flex items-center gap-8 text-[17px] font-medium text-slate-700 shrink-0"
+          className="hidden xl:flex items-center gap-10 text-[17px] font-medium tracking-wide text-slate-700 shrink-0"
         >
           <NavMenu
             label="에이전트 찾기"
@@ -131,9 +135,27 @@ export default function Nav() {
             setOpenMenu={setOpenMenu}
             items={jobMenuItems}
           />
-          <Link href="/about" className="hover:text-slate-950">Why AgentWorks</Link>
-          <Link href="/pricing" className="hover:text-slate-950">요금</Link>
-          <Link href="/enterprise" className="hover:text-slate-950">엔터프라이즈</Link>
+          <NavMenu
+            label="Why AgentWorks"
+            menuKey="about"
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            items={aboutMenuItems}
+          />
+          <NavMenu
+            label="요금"
+            menuKey="pricing"
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            items={pricingMenuItems}
+          />
+          <NavMenu
+            label="엔터프라이즈"
+            menuKey="enterprise"
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            items={enterpriseMenuItems}
+          />
         </nav>
 
         <div className="flex-1" />
