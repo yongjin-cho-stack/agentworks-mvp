@@ -158,6 +158,8 @@ export default function HomePage() {
             </div>
           </section>
 
+          <CategoryExplorer />
+
           <section className="border-t border-slate-200 pt-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">최근 평가</h2>
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -205,8 +207,6 @@ export default function HomePage() {
               ))}
             </div>
           </section>
-
-          <CategoryExplorer />
         </>
       )}
 
