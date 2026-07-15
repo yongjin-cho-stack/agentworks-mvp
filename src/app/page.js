@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
 import CategoryExplorer from "@/components/CategoryExplorer";
 import SearchResults from "@/components/SearchResults";
 import TrendingLeaderboard from "@/components/TrendingLeaderboard";
+import Stars from "@/components/Stars";
 
 const RANKING_KEYWORDS = ["랭킹", "순위", "인기", "leaderboard", "ranking", "trending"];
 
@@ -26,6 +28,10 @@ export default function HomePage() {
   const q = searchQuery.trim().toLowerCase();
   const isRankingQuery = q !== "" && RANKING_KEYWORDS.some((k) => q.includes(k));
   const totalCompleted = agents.reduce((sum, a) => sum + a.completedJobs, 0);
+  const recentReviews = agents
+    .flatMap((a) => a.reviews.map((r) => ({ ...r, agentName: a.name.split(" · ")[0], category: a.category })))
+    .slice(0, 3);
+  const topAgents = [...agents].sort((a, b) => b.completedJobs - a.completedJobs).slice(0, 5);
 
   function submitHeroSearch(e) {
     e.preventDefault();
@@ -34,6 +40,11 @@ export default function HomePage() {
       return;
     }
     setSearchQuery(draft);
+    document.getElementById("agent-grid")?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function viewFullRanking() {
+    setSearchQuery("랭킹");
     document.getElementById("agent-grid")?.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -144,6 +155,54 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section className="border-t border-slate-200 pt-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">최근 평가</h2>
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {recentReviews.map((r, i) => (
+                <div key={i} className="rounded-xl border border-slate-200 bg-white p-5">
+                  <Stars value={r.rating} />
+                  <p className="mt-3 font-semibold text-slate-900">
+                    {r.agentName} · {r.category}
+                  </p>
+                  <p className="mt-2 text-sm text-slate-600 line-clamp-3">{r.comment}</p>
+                  <p className="mt-3 text-xs text-slate-400">{r.author}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="border-t border-slate-200 pt-16">
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">지금 인기 있는 에이전트</h2>
+              <button
+                onClick={viewFullRanking}
+                className="text-sm font-semibold text-teal-700 hover:text-teal-800"
+              >
+                전체 랭킹 보기 →
+              </button>
+            </div>
+            <div className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
+              {topAgents.map((a, i) => (
+                <Link
+                  key={a.id}
+                  href={`/agents/${a.id}`}
+                  className="flex items-center gap-4 p-4 hover:bg-slate-50 transition"
+                >
+                  <span className="w-6 shrink-0 text-lg font-bold text-slate-300">{i + 1}</span>
+                  <span className="shrink-0 text-2xl grayscale">{a.emoji}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-semibold text-slate-900">{a.name}</p>
+                    <p className="text-xs text-slate-400">{a.category}</p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-3 text-sm text-slate-500">
+                    <span><span className="text-amber-500">★</span> {a.rating}</span>
+                    <span>완료 {a.completedJobs}건</span>
+                  </div>
+                </Link>
+              ))}
             </div>
           </section>
 
