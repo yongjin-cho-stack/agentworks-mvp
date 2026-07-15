@@ -24,6 +24,95 @@ function ChevronDown({ className = "" }) {
   );
 }
 
+function ChevronRight({ className = "" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`h-3.5 w-3.5 ${className}`}
+    >
+      <polyline points="9 6 15 12 9 18" />
+    </svg>
+  );
+}
+
+function AgentMegaMenu({ openMenu, setOpenMenu, onSelectCategory }) {
+  const { agents } = useStore();
+  const [activeCat, setActiveCat] = useState(CATEGORIES[0]);
+  const open = openMenu === "agents";
+  const activeAgent = agents.find((a) => a.category === activeCat);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpenMenu(open ? null : "agents")}
+        className="flex items-center gap-1 hover:text-slate-950"
+      >
+        에이전트 찾기
+        <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute left-0 top-full mt-3 w-[640px] overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-xl">
+          <div className="flex">
+            <div className="w-56 shrink-0 border-r border-slate-800 py-3">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onMouseEnter={() => setActiveCat(cat)}
+                  onClick={() => setActiveCat(cat)}
+                  className={`flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium transition ${
+                    activeCat === cat ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5"
+                  }`}
+                >
+                  {cat}
+                  <ChevronRight className="text-slate-500" />
+                </button>
+              ))}
+            </div>
+            <div className="flex-1 p-5">
+              {activeAgent && (
+                <>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{activeCat}</p>
+                  <div className="mt-3 grid grid-cols-2 gap-4">
+                    {activeAgent.packages.map((pkg) => (
+                      <Link
+                        key={pkg.title}
+                        href={`/agents/${activeAgent.id}`}
+                        onClick={() => setOpenMenu(null)}
+                        className="block rounded-lg p-2 -m-2 hover:bg-white/5"
+                      >
+                        <p className="font-semibold text-white">{pkg.title}</p>
+                        <p className="mt-0.5 text-sm text-slate-400">{pkg.desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="border-t border-slate-800 px-5 py-3">
+            <Link
+              href="/"
+              onClick={() => {
+                onSelectCategory("전체");
+                setOpenMenu(null);
+              }}
+              className="text-sm font-semibold text-teal-400 hover:text-teal-300"
+            >
+              전체 에이전트 보기 →
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function NavMenu({ label, menuKey, openMenu, setOpenMenu, items }) {
   const open = openMenu === menuKey;
   return (
@@ -81,15 +170,6 @@ export default function Nav() {
     router.push("/");
   }
 
-  const agentMenuItems = [
-    { label: "전체 에이전트", href: "/", onClick: () => setSelectedCategory("전체") },
-    ...CATEGORIES.map((cat) => ({
-      label: cat,
-      href: "/",
-      onClick: () => setSelectedCategory(cat),
-    })),
-  ];
-
   const jobMenuItems = [
     { label: "공고 보드 전체", href: "/jobs" },
     { label: "공고 등록하기", href: "/jobs/new" },
@@ -121,12 +201,10 @@ export default function Nav() {
           ref={navRef}
           className="hidden xl:flex items-center gap-10 text-[17px] font-medium tracking-wide text-slate-700 shrink-0"
         >
-          <NavMenu
-            label="에이전트 찾기"
-            menuKey="agents"
+          <AgentMegaMenu
             openMenu={openMenu}
             setOpenMenu={setOpenMenu}
-            items={agentMenuItems}
+            onSelectCategory={setSelectedCategory}
           />
           <NavMenu
             label="일감 찾기"
