@@ -6,14 +6,9 @@ import { useStore } from "@/lib/store";
 import { CATEGORIES } from "@/lib/mockData";
 
 export default function CategoryExplorer() {
-  const { agents, setSelectedCategory } = useStore();
+  const { agents } = useStore();
   const [mode, setMode] = useState("solo"); // solo | team
   const [openCat, setOpenCat] = useState(CATEGORIES[0]);
-
-  function goToCategory(cat) {
-    setSelectedCategory(cat);
-    document.getElementById("agent-grid")?.scrollIntoView({ behavior: "smooth" });
-  }
 
   return (
     <section className="py-16 border-t border-slate-200">
@@ -82,12 +77,6 @@ export default function CategoryExplorer() {
                         {a.name.split(" · ")[0]} · ₩{a.packages[0].price.toLocaleString()}~
                       </Link>
                     ))}
-                    <button
-                      onClick={() => goToCategory(cat)}
-                      className="rounded-full bg-teal-50 px-3 py-1.5 text-sm font-semibold text-teal-700 hover:bg-teal-100"
-                    >
-                      {cat} 전체 보기 →
-                    </button>
                   </div>
                 )}
               </div>

@@ -1,11 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
-import BadgePill from "@/components/BadgePill";
-import Stars from "@/components/Stars";
 import CategoryExplorer from "@/components/CategoryExplorer";
 import SearchResults from "@/components/SearchResults";
 import TrendingLeaderboard from "@/components/TrendingLeaderboard";
@@ -22,21 +19,12 @@ function IconArrow(props) {
 }
 
 export default function HomePage() {
-  const { agents, selectedCategory, searchQuery, setSearchQuery } = useStore();
+  const { agents, searchQuery, setSearchQuery } = useStore();
   const router = useRouter();
   const [mode, setMode] = useState("hire"); // "hire" | "work"
   const [draft, setDraft] = useState("");
   const q = searchQuery.trim().toLowerCase();
   const isRankingQuery = q !== "" && RANKING_KEYWORDS.some((k) => q.includes(k));
-  const filtered = agents.filter((a) => {
-    const matchesCategory = selectedCategory === "전체" || a.category === selectedCategory;
-    const matchesQuery =
-      !q ||
-      a.name.toLowerCase().includes(q) ||
-      a.tagline.toLowerCase().includes(q) ||
-      a.category.toLowerCase().includes(q);
-    return matchesCategory && matchesQuery;
-  });
   const totalCompleted = agents.reduce((sum, a) => sum + a.completedJobs, 0);
 
   function submitHeroSearch(e) {
@@ -171,48 +159,7 @@ export default function HomePage() {
             <h2 className="mb-3 text-lg font-bold text-slate-900">"{searchQuery}" 검색 결과</h2>
             <SearchResults />
           </>
-        ) : (
-          <>
-            <div className="flex items-baseline justify-between mb-6">
-              <h2 className="text-lg font-bold text-slate-900">
-                에이전트 둘러보기
-                {selectedCategory !== "전체" && (
-                  <span className="ml-2 text-sm font-normal text-slate-400">· {selectedCategory}</span>
-                )}
-              </h2>
-              <span className="text-sm text-slate-500">{filtered.length}개 에이전트</span>
-            </div>
-            {filtered.length === 0 && (
-              <p className="text-sm text-slate-400">이 카테고리의 에이전트가 아직 없습니다.</p>
-            )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {filtered.map((agent) => (
-                <Link
-                  key={agent.id}
-                  href={`/agents/${agent.id}`}
-                  className="rounded-xl border border-slate-200 bg-white p-6 hover:shadow-md hover:border-teal-300 transition"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="text-3xl grayscale">{agent.emoji}</div>
-                    <BadgePill badgeKey={agent.badge} />
-                  </div>
-                  <h3 className="mt-3 font-semibold text-slate-900">{agent.name}</h3>
-                  <p className="text-sm text-slate-500">{agent.tagline}</p>
-                  <div className="mt-3 flex items-center justify-between text-sm">
-                    <Stars value={agent.rating} count={agent.reviewCount} />
-                    <span className="text-slate-500">JSS {agent.jss}%</span>
-                  </div>
-                  <div className="mt-3 text-sm text-slate-600">
-                    완료 {agent.completedJobs}건 · {agent.category}
-                  </div>
-                  <div className="mt-3 text-sm font-semibold text-teal-700">
-                    패키지 ₩{agent.packages[0].price.toLocaleString()}~
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </>
-        )}
+        ) : null}
       </section>
     </div>
   );
